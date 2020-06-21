@@ -9,7 +9,7 @@ defmodule AG.SlackAPITest do
     {:ok, bypass: bypass}
   end
 
-  describe "list_users/1" do
+  describe "list_active_users/1" do
     test "returns :error when users cannot be listed", %{bypass: bypass} do
       Bypass.expect(bypass, fn conn ->
         Plug.Conn.resp(conn, 200, ~s(
@@ -17,7 +17,7 @@ defmodule AG.SlackAPITest do
         ))
       end)
 
-      result = SlackAPI.list_users("http://localhost:#{bypass.port}")
+      result = SlackAPI.list_active_users("http://localhost:#{bypass.port}")
 
       assert result == :error
     end
@@ -37,7 +37,7 @@ defmodule AG.SlackAPITest do
         ))
       end)
 
-      result = SlackAPI.list_users("http://localhost:#{bypass.port}")
+      result = SlackAPI.list_active_users("http://localhost:#{bypass.port}")
 
       assert result ==
                {:ok,

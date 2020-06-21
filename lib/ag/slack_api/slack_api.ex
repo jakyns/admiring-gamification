@@ -5,8 +5,8 @@ defmodule AG.SlackAPI do
   @base_url "https://slack.com/api"
   @http_options [ssl: [{:versions, [:"tlsv1.2"]}], recv_timeout: :timer.seconds(1)]
 
-  @spec list_users(String.t()) :: {:ok, [User.t()]} | :error
-  def list_users(base_url \\ @base_url) do
+  @spec list_active_users(String.t()) :: {:ok, [User.t()]} | :error
+  def list_active_users(base_url \\ @base_url) do
     url = base_url <> "/users.list"
 
     headers = [
