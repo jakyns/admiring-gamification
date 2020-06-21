@@ -6,7 +6,7 @@ defmodule AG.Application do
   use Application
 
   def start(_type, _args) do
-    children = [
+    default_children = [
       # Start the Ecto repository
       AG.Repo,
       # Start the Telemetry supervisor
@@ -18,6 +18,16 @@ defmodule AG.Application do
       # Start a worker by calling: AG.Worker.start_link(arg)
       # {AG.Worker, arg}
     ]
+
+    children =
+      if Application.get_env(:ag, :env) == :test do
+        default_children
+      else
+        default_children ++
+          [
+            {AG.UserStorage, slack_api: AG.SlackAPI}
+          ]
+      end
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
