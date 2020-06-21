@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     services:
       db:
         image: postgres:12
@@ -32,4 +32,4 @@ jobs:
     - name: Format Files
       run: mix format --check-formatted
     - name: Run Tests
-      run: mix test
+      run: mix test --cover --raise
