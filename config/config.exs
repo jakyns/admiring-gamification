@@ -9,7 +9,8 @@ use Mix.Config
 
 config :ag,
   namespace: AG,
-  ecto_repos: [AG.Repo]
+  ecto_repos: [AG.Repo],
+  slack_token: System.get_env("SLACK_TOKEN")
 
 # Configures the endpoint
 config :ag, AGWeb.Endpoint,
