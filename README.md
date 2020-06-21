@@ -1,4 +1,6 @@
-# AG
+# Admiring Gamification - AG
+
+![Elixir CI](https://github.com/jakyns/admiring-gamification/workflows/Elixir%20CI/badge.svg?branch=master)
 
 To start your Phoenix server:
 
