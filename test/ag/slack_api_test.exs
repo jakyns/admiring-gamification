@@ -30,7 +30,8 @@ defmodule AG.SlackAPITest do
             "members": [
               {"deleted": false, "is_bot": false, "id": "U62921N0Z", "name": "hinata", "real_name": "Hinata Shoyo"},
               {"deleted": true, "is_bot": false, "id": "U625Q5Q6L", "name": "kyloren", "real_name": "Ben Solo"},
-              {"deleted": false, "is_bot": true, "id": "U01032QJXNH", "name": "googledrive", "real_name": "Google Drive"}
+              {"deleted": false, "is_bot": true, "id": "U01032QJXNH", "name": "googledrive", "real_name": "Google Drive"},
+              {"deleted": false, "is_bot": false, "id": "USLACKBOT", "name": "slackbot", "real_name": "Slack Bot"}
             ]
           }
         ))

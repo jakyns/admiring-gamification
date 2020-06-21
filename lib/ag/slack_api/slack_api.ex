@@ -25,6 +25,11 @@ defmodule AG.SlackAPI do
   defp filter_and_map_to_users(list) do
     Enum.flat_map(list, fn
       %{
+        "name" => "slackbot"
+      } ->
+        []
+
+      %{
         "deleted" => false,
         "is_bot" => false,
         "id" => id,
