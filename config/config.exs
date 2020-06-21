@@ -10,6 +10,7 @@ use Mix.Config
 config :ag,
   namespace: AG,
   ecto_repos: [AG.Repo],
+  env: Mix.env(),
   slack_token: System.get_env("SLACK_TOKEN"),
   slack_signing_secret: System.get_env("SLACK_SIGNING_SECRET")
 
