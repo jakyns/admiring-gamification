@@ -4,7 +4,7 @@ defmodule AGWeb.CacheBodyReaderTest do
   alias AGWeb.CacheBodyReader
 
   describe "read_body/2" do
-    test "assigns raw_body", %{conn: conn} do
+    test "reads the body and assigns it to raw_body key of the given conn", %{conn: conn} do
       opts = []
 
       result = CacheBodyReader.read_body(conn, opts)
