@@ -1,0 +1,12 @@
+{
+    "skip_files": [
+        "lib/ag/application.ex",
+        "lib/ag_web.ex",
+        "lib/ag_web/endpoint.ex",
+        "lib/ag_web/views/error_helpers.ex",
+        "test/support"
+    ],
+    "coverage_options": {
+        "minimum_coverage": 80
+    }
+}
