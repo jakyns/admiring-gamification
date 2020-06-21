@@ -49,7 +49,9 @@ defmodule AG.MixProject do
       {:telemetry_poller, "~> 0.4"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:excoveralls, "~> 0.10", only: :test}
+      {:excoveralls, "~> 0.10", only: :test},
+      {:httpoison, "~> 1.7"},
+      {:bypass, "~> 1.0", only: :test}
     ]
   end
 
