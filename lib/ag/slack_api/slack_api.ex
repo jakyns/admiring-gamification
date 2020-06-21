@@ -1,11 +1,17 @@
+defmodule AG.SlackAPIBehaviour do
+  @callback list_active_users() :: {:ok, [User.t()]} | :error
+end
+
 defmodule AG.SlackAPI do
   alias AG.SlackAPI.User
   alias HTTPoison.Response
 
+  @behaviour AG.SlackAPIBehaviour
+
   @base_url "https://slack.com/api"
   @http_options [ssl: [{:versions, [:"tlsv1.2"]}], recv_timeout: :timer.seconds(1)]
 
-  @spec list_active_users(String.t()) :: {:ok, [User.t()]} | :error
+  @impl true
   def list_active_users(base_url \\ @base_url) do
     url = base_url <> "/users.list"
 

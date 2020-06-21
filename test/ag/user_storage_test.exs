@@ -5,6 +5,9 @@ defmodule AG.UserStorageTest do
   alias AG.UserStorage
 
   defmodule TestSlackAPI do
+    @behaviour AG.SlackAPIBehaviour
+
+    @impl true
     def list_active_users do
       {:ok, [%User{id: "U62921N0Z", name: "hinata", real_name: "Hinata Shoyo"}]}
     end
