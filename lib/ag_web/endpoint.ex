@@ -41,6 +41,12 @@ defmodule AGWeb.Endpoint do
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
 
   plug Plug.Parsers,
+    parsers: [:urlencoded, :json],
+    pass: ["text/*"],
+    body_reader: {AGWeb.CacheBodyReader, :read_body, []},
+    json_decoder: Phoenix.json_library()
+
+  plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
     json_decoder: Phoenix.json_library()
