@@ -32,7 +32,7 @@ defmodule AG.UserStorage do
 
   @impl true
   def handle_info(:insert_users, %{slack_api: slack_api, interval: interval} = state) do
-    Logger.info("Start fetching & inserting users ...")
+    Logger.info("Fetching & inserting users ...")
 
     case slack_api.list_active_users() do
       {:ok, users} ->
