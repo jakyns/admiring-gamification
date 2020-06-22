@@ -2,15 +2,7 @@ defmodule AGWeb.SlackRequestVerificationPlugTest do
   use AGWeb.ConnCase, async: true
 
   alias AGWeb.SlackRequestVerificationPlug
-
-  defmodule TestSlackRequestVerifier do
-    @behaviour AGWeb.SlackRequestVerifierBehaviour
-
-    @impl true
-    def verify(_, _, slack_signature) do
-      slack_signature == "v0=validsignature"
-    end
-  end
+  alias AGWeb.TestSlackRequestVerifier
 
   describe "init/1" do
     test "returns the given verifier" do

@@ -1,7 +1,3 @@
-defmodule AGWeb.SlackRequestVerifierBehaviour do
-  @callback verify(binary(), binary(), binary()) :: boolean()
-end
-
 defmodule AGWeb.SlackRequestVerifier do
   @behaviour AGWeb.SlackRequestVerifierBehaviour
 
@@ -17,5 +13,14 @@ defmodule AGWeb.SlackRequestVerifier do
 
   defp slack_signing_secret do
     Application.get_env(:ag, :slack_signing_secret)
+  end
+end
+
+defmodule AGWeb.TestSlackRequestVerifier do
+  @behaviour AGWeb.SlackRequestVerifierBehaviour
+
+  @impl true
+  def verify(_, _, slack_signature) do
+    slack_signature == "v0=validsignature"
   end
 end

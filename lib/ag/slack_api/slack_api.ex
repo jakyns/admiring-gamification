@@ -1,12 +1,8 @@
-defmodule AG.SlackAPIBehaviour do
-  @callback list_active_users() :: {:ok, [User.t()]} | :error
-end
-
 defmodule AG.SlackAPI do
+  @behaviour AG.SlackAPIBehaviour
+
   alias AG.SlackAPI.User
   alias HTTPoison.Response
-
-  @behaviour AG.SlackAPIBehaviour
 
   @base_url "https://slack.com/api"
   @http_options [ssl: [{:versions, [:"tlsv1.2"]}], recv_timeout: :timer.seconds(1)]
@@ -57,5 +53,16 @@ defmodule AG.SlackAPI do
 
   defp slack_token do
     Application.get_env(:ag, :slack_token)
+  end
+end
+
+defmodule AG.TestSlackAPI do
+  @behaviour AG.SlackAPIBehaviour
+
+  alias AG.SlackAPI.User
+
+  @impl true
+  def list_active_users do
+    {:ok, [%User{id: "U62921N0Z", name: "hinata", real_name: "Hinata Shoyo"}]}
   end
 end
