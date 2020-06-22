@@ -1,7 +1,3 @@
-defmodule AG.SlackAPIBehaviour do
-  @callback list_active_users() :: {:ok, [User.t()]} | :error
-end
-
 defmodule AG.SlackAPI do
   alias AG.SlackAPI.User
   alias HTTPoison.Response

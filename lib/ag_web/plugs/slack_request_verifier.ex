@@ -1,7 +1,3 @@
-defmodule AGWeb.SlackRequestVerifierBehaviour do
-  @callback verify(binary(), binary(), binary()) :: boolean()
-end
-
 defmodule AGWeb.SlackRequestVerifier do
   @behaviour AGWeb.SlackRequestVerifierBehaviour
 
