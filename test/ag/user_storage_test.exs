@@ -26,6 +26,21 @@ defmodule AG.UserStorageTest do
       assert result == {:error, :not_found}
     end
 
+    test "returns {:error, :not_found} if users in the storage is not yet ready to be retrieved due to api error" do
+      name = "bokuto"
+
+      SlackAPIMock
+      |> expect(:list_active_users, 1, fn -> :error end)
+
+      pid = start_supervised!({UserStorage, [slack_api: SlackAPIMock]})
+      allow(SlackAPIMock, self(), pid)
+      :timer.sleep(100)
+
+      result = UserStorage.get_user_by_name(name)
+
+      assert result == {:error, :not_found}
+    end
+
     test "returns {:ok, user} if user can be found from the given name" do
       name = "hinata"
 
