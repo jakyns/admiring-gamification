@@ -1,7 +1,7 @@
 defmodule AG.UserStorage do
-  use GenServer
+  @behaviour AG.UserStorageBehaviour
 
-  alias AG.SlackAPI.User
+  use GenServer
 
   require Logger
 
@@ -15,7 +15,7 @@ defmodule AG.UserStorage do
     GenServer.start_link(__MODULE__, {slack_api, interval})
   end
 
-  @spec get_user_by_name(String.t()) :: {:ok, User.t()} | {:error, :not_found}
+  @impl AG.UserStorageBehaviour
   def get_user_by_name(name) do
     case :ets.lookup(@table_name, name) do
       [{^name, user}] -> {:ok, user}
@@ -23,14 +23,14 @@ defmodule AG.UserStorage do
     end
   end
 
-  @impl true
+  @impl GenServer
   def init({slack_api, interval}) do
     :ets.new(@table_name, [:named_table, :set, :protected, read_concurrency: true])
     schedule_task(0)
     {:ok, %{slack_api: slack_api, interval: interval}}
   end
 
-  @impl true
+  @impl GenServer
   def handle_info(:insert_users, %{slack_api: slack_api, interval: interval} = state) do
     Logger.info("Fetching & inserting users ...")
 

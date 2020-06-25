@@ -14,6 +14,8 @@ config :ag,
   slack_token: System.get_env("SLACK_TOKEN"),
   slack_signing_secret: System.get_env("SLACK_SIGNING_SECRET")
 
+config :ag, AG.Repo, migration_timestamps: [type: :timestamptz]
+
 # Configures the endpoint
 config :ag, AGWeb.Endpoint,
   url: [host: "localhost"],
@@ -29,6 +31,9 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+# Configures default user storage
+config :ag, :user_storage, AG.UserStorage
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
