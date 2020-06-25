@@ -14,6 +14,8 @@ config :ag,
   slack_token: System.get_env("SLACK_TOKEN"),
   slack_signing_secret: System.get_env("SLACK_SIGNING_SECRET")
 
+config :ag, AG.Repo, migration_timestamps: [type: :timestamptz]
+
 # Configures the endpoint
 config :ag, AGWeb.Endpoint,
   url: [host: "localhost"],
