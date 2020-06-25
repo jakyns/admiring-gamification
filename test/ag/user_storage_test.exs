@@ -1,21 +1,25 @@
 defmodule AG.UserStorageTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
+
+  import Mox
 
   alias AG.SlackAPI.User
   alias AG.UserStorage
-  alias AG.TestSlackAPI
 
-  setup_all do
-    opts = [slack_api: TestSlackAPI]
-    start_supervised!({UserStorage, opts})
-    :timer.sleep(100)
-
-    :ok
-  end
+  setup :verify_on_exit!
 
   describe "get_user_by_name/1" do
     test "returns {:error, :not_found} if user cannot be found from the given name" do
       name = "tobio"
+
+      SlackAPIMock
+      |> expect(:list_active_users, 1, fn ->
+        {:ok, []}
+      end)
+
+      pid = start_supervised!({UserStorage, [slack_api: SlackAPIMock]})
+      allow(SlackAPIMock, self(), pid)
+      :timer.sleep(100)
 
       result = UserStorage.get_user_by_name(name)
 
@@ -24,6 +28,15 @@ defmodule AG.UserStorageTest do
 
     test "returns {:ok, user} if user can be found from the given name" do
       name = "hinata"
+
+      SlackAPIMock
+      |> expect(:list_active_users, 1, fn ->
+        {:ok, [%User{id: "U62921N0Z", name: "hinata", real_name: "Hinata Shoyo"}]}
+      end)
+
+      pid = start_supervised!({UserStorage, [slack_api: SlackAPIMock]})
+      allow(SlackAPIMock, self(), pid)
+      :timer.sleep(100)
 
       result = UserStorage.get_user_by_name(name)
 
