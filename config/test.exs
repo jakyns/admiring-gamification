@@ -22,3 +22,5 @@ config :ag, AGWeb.Endpoint,
 config :logger, level: :warn
 
 config :ag, slack_signing_secret: "965706f92502af345d1799d6b516c65b"
+
+config :ag, :user_storage, UserStorageMock
