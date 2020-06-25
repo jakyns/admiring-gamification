@@ -51,7 +51,8 @@ defmodule AG.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:excoveralls, "~> 0.10", only: :test},
       {:httpoison, "~> 1.7"},
-      {:bypass, "~> 1.0", only: :test}
+      {:bypass, "~> 1.0", only: :test},
+      {:mox, "~> 0.5", only: :test}
     ]
   end
 
