@@ -1,5 +1,5 @@
 defmodule AG.UserStorageTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
 
   import Mox
 
@@ -19,7 +19,7 @@ defmodule AG.UserStorageTest do
 
       pid = start_supervised!({UserStorage, [slack_api: SlackAPIMock]})
       allow(SlackAPIMock, self(), pid)
-      :timer.sleep(100)
+      :timer.sleep(300)
 
       result = UserStorage.get_user_by_name(name)
 
@@ -34,7 +34,7 @@ defmodule AG.UserStorageTest do
 
       pid = start_supervised!({UserStorage, [slack_api: SlackAPIMock]})
       allow(SlackAPIMock, self(), pid)
-      :timer.sleep(100)
+      :timer.sleep(300)
 
       result = UserStorage.get_user_by_name(name)
 
@@ -51,7 +51,7 @@ defmodule AG.UserStorageTest do
 
       pid = start_supervised!({UserStorage, [slack_api: SlackAPIMock]})
       allow(SlackAPIMock, self(), pid)
-      :timer.sleep(100)
+      :timer.sleep(300)
 
       result = UserStorage.get_user_by_name(name)
 
