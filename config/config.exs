@@ -38,6 +38,9 @@ config :ag, :user_storage, AG.UserStorage
 # Configures default compliment creator
 config :ag, :compliment_creator, AG.ComplimentCreator
 
+# Configures default slack request verifier
+config :ag, :slack_request_verifier, AGWeb.SlackRequestVerifier
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

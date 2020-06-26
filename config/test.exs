@@ -23,6 +23,7 @@ config :logger, level: :warn
 
 config :ag, slack_signing_secret: "965706f92502af345d1799d6b516c65b"
 
+# Configures mock modules
 config :ag, :user_storage, UserStorageMock
-
 config :ag, :compliment_creator, ComplimentCreatorMock
+config :ag, :slack_request_verifier, SlackRequestVerifierMock
