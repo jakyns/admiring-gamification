@@ -1,4 +1,6 @@
 defmodule AG.ComplimentCreator do
+  @behaviour AG.ComplimentCreatorBehaviour
+
   defmodule Error do
     defexception [:message]
 
@@ -14,7 +16,7 @@ defmodule AG.ComplimentCreator do
 
   @user_storage Application.get_env(:ag, :user_storage)
 
-  @spec create(String.t(), String.t(), String.t()) :: :ok | {:error, Error.t()}
+  @impl true
   def create(sender_id, recipient_name, type) do
     with {:ok, recipient_id} <- get_recipient_id(recipient_name),
          :ok <- check_recipient_and_sender(recipient_id, sender_id),
