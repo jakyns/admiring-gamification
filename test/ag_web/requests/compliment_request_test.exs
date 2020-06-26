@@ -6,6 +6,8 @@ defmodule AGWeb.ComplimentRequestTest do
   describe "POST /api/compliments" do
     @params %{"user_id" => "123", "command" => "/compliment", "text" => "@adele cool"}
 
+    setup :verify_on_exit!
+
     test "when request is not authorized", %{conn: conn} do
       SlackRequestVerifierMock
       |> expect(:verify, 1, fn _, _, _ -> false end)
@@ -13,7 +15,16 @@ defmodule AGWeb.ComplimentRequestTest do
       ComplimentCreatorMock
       |> expect(:create, 0, fn _, _, _ -> :ok end)
 
-      conn = post(conn, Routes.compliment_path(conn, :create), @params)
+      timestamp =
+        DateTime.utc_now()
+        |> DateTime.to_unix(:second)
+        |> to_string()
+
+      conn =
+        conn
+        |> put_req_header("x-slack-request-timestamp", timestamp)
+        |> put_req_header("x-slack-signature", "v0=slacksignature")
+        |> post(Routes.compliment_path(conn, :create), @params)
 
       assert conn.status == 401
     end
@@ -33,7 +44,7 @@ defmodule AGWeb.ComplimentRequestTest do
       conn =
         conn
         |> put_req_header("x-slack-request-timestamp", timestamp)
-        |> put_req_header("x-slack-signature", "v0=slacksignatur")
+        |> put_req_header("x-slack-signature", "v0=slacksignature")
         |> post(Routes.compliment_path(conn, :create), @params)
 
       assert conn.status == 200
