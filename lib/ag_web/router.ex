@@ -7,6 +7,8 @@ defmodule AGWeb.Router do
 
   scope "/api", AGWeb do
     pipe_through :api
+
+    post "/compliments", ComplimentController, :create
   end
 
   # Enables LiveDashboard only for development
