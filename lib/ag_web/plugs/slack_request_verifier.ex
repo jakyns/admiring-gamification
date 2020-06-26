@@ -15,12 +15,3 @@ defmodule AGWeb.SlackRequestVerifier do
     Application.get_env(:ag, :slack_signing_secret)
   end
 end
-
-defmodule AGWeb.TestSlackRequestVerifier do
-  @behaviour AGWeb.SlackRequestVerifierBehaviour
-
-  @impl true
-  def verify(_, _, slack_signature) do
-    slack_signature == "v0=validsignature"
-  end
-end

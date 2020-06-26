@@ -55,14 +55,3 @@ defmodule AG.SlackAPI do
     Application.get_env(:ag, :slack_token)
   end
 end
-
-defmodule AG.TestSlackAPI do
-  @behaviour AG.SlackAPIBehaviour
-
-  alias AG.SlackAPI.User
-
-  @impl true
-  def list_active_users do
-    {:ok, [%User{id: "U62921N0Z", name: "hinata", real_name: "Hinata Shoyo"}]}
-  end
-end
