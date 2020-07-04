@@ -7,6 +7,9 @@ defmodule AG.SlackAPI do
   @base_url "https://slack.com/api"
   @http_options [ssl: [{:versions, [:"tlsv1.2"]}], recv_timeout: :timer.seconds(1)]
 
+  @doc """
+  Lists Slack active users.
+  """
   @impl true
   def list_active_users(base_url \\ @base_url) do
     url = base_url <> "/users.list"

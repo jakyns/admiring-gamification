@@ -15,6 +15,9 @@ defmodule AG.UserStorage do
     GenServer.start_link(__MODULE__, {slack_api, interval})
   end
 
+  @doc """
+  Gets user from the given name.
+  """
   @impl AG.UserStorageBehaviour
   def get_user_by_name(name) do
     case :ets.lookup(@table_name, name) do
