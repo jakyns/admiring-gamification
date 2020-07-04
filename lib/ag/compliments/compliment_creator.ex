@@ -16,6 +16,9 @@ defmodule AG.ComplimentCreator do
 
   @user_storage Application.get_env(:ag, :user_storage)
 
+  @doc """
+  Creates a compliment.
+  """
   @impl true
   def create(sender_id, recipient_name, type) do
     with {:ok, recipient_id} <- get_recipient_id(recipient_name),

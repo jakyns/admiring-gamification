@@ -1,6 +1,9 @@
 defmodule AGWeb.SlackRequestVerifier do
   @behaviour AGWeb.SlackRequestVerifierBehaviour
 
+  @doc """
+  Verifies whether request is a valid Slack request.
+  """
   @impl true
   def verify(timestamp, req_body, slack_signature) do
     sig_basestring = "v0:#{timestamp}:#{req_body}"
