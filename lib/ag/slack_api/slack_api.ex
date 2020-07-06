@@ -2,10 +2,9 @@ defmodule AG.SlackAPI do
   @behaviour AG.SlackAPIBehaviour
 
   alias AG.SlackAPI.User
-  alias HTTPoison.Response
+  alias Mojito.Response
 
   @base_url "https://slack.com/api"
-  @http_options [ssl: [{:versions, [:"tlsv1.2"]}], recv_timeout: :timer.seconds(1)]
 
   @doc """
   Lists Slack active users.
@@ -15,11 +14,11 @@ defmodule AG.SlackAPI do
     url = base_url <> "/users.list"
 
     headers = [
-      Authorization: "Bearer #{slack_token()}",
-      Accept: "application/x-www-form-urlencoded"
+      {"Authorization", "Bearer #{slack_token()}"},
+      {"Accept", "application/x-www-form-urlencoded"}
     ]
 
-    with {:ok, %Response{status_code: 200, body: body}} <- HTTPoison.get(url, headers, @http_options),
+    with {:ok, %Response{status_code: 200, body: body}} <- Mojito.get(url, headers),
          %{"ok" => true, "members" => members} <- Jason.decode!(body) do
       {:ok, filter_and_map_to_users(members)}
     else
