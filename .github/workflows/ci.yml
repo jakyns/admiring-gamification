@@ -4,6 +4,11 @@ on: [push, pull_request]
 
 jobs:
   build:
+    strategy:
+        matrix:
+          otp: ['22.3']
+          elixir: ['1.10.4']
+
     runs-on: ubuntu-latest
 
     services:
@@ -22,11 +27,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/cache@v1
+      with:
+        path: _build
+        key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-build-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+        restore-keys: |
+           ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-
     - name: Setup elixir
       uses: actions/setup-elixir@v1
       with:
-        elixir-version: '1.10.3' # Define the elixir version [required]
-        otp-version: '22.3' # Define the OTP version [required]
+        otp-version: ${{ matrix.otp }}
+        elixir-version: ${{ matrix.elixir }}
     - name: Install Dependencies
       run: mix deps.get
     - name: Format Files
