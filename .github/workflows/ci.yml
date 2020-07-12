@@ -3,15 +3,7 @@ name: Elixir CI
 on: [pull_request, push]
 
 jobs:
-  build:
-    name: mix test (Elixir ${{ matrix.elixir }} OTP ${{ matrix.otp }})
-    strategy:
-        matrix:
-          elixir: ['1.10.4']
-          include:
-            - elixir: '1.10.4'
-              otp: '22.3'
-
+  test:
     runs-on: ubuntu-latest
 
     services:
@@ -30,26 +22,20 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/cache@v1
+    - uses: actions/cache@v2
       with:
         path: deps
-        key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+        key: ${{ runner.os }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
         restore-keys: |
-           ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-
-    - uses: actions/cache@v1
-      with:
-        path: _build
-        key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-build-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
-        restore-keys: |
-           ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-
+          ${{ runner.os }}-mix-
     - name: Setup elixir
       uses: actions/setup-elixir@v1
       with:
-        otp-version: ${{ matrix.otp }}
-        elixir-version: ${{ matrix.elixir }}
+        otp-version: 23.x
+        elixir-version: 1.10.x
     - name: Install Dependencies
       run: mix deps.get
-    - name: Format Files
-      run: mix format --check-formatted
+    - run: mix compile
+    - run: mix format --check-formatted
     - name: Run Tests
-      run: mix test --cover --raise
+      run: mix test --trace --cover --raise
