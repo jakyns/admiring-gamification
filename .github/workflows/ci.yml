@@ -1,9 +1,9 @@
 name: Elixir CI
 
-on: [push, pull_request]
+on: [pull_request, push]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     services:
@@ -22,14 +22,27 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Recover deps cache
+      uses: actions/cache@v2
+      with:
+        path: deps
+        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-mix-
+    - name: Recover build cache
+      uses: actions/cache@v2
+      with:
+        path: _build
+        key: ${{ runner.os }}-build-${{ hashFiles('**/mix.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-build-
     - name: Setup elixir
       uses: actions/setup-elixir@v1
       with:
-        elixir-version: '1.10.3' # Define the elixir version [required]
-        otp-version: '22.3' # Define the OTP version [required]
+        otp-version: 23.x
+        elixir-version: 1.10.x
     - name: Install Dependencies
       run: mix deps.get
-    - name: Format Files
-      run: mix format --check-formatted
+    - run: mix format --check-formatted
     - name: Run Tests
-      run: mix test --cover --raise
+      run: mix test --trace --cover --raise
