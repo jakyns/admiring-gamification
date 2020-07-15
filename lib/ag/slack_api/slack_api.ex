@@ -4,6 +4,8 @@ defmodule AG.SlackAPI do
   alias AG.SlackAPI.User
   alias Mojito.Response
 
+  require Logger
+
   @base_url "https://slack.com/api"
 
   @doc """
@@ -22,7 +24,9 @@ defmodule AG.SlackAPI do
          %{"ok" => true, "members" => members} <- Jason.decode!(body) do
       {:ok, filter_and_map_to_users(members)}
     else
-      _ -> :error
+      error ->
+        Logger.error(inspect(error))
+        :error
     end
   end
 
