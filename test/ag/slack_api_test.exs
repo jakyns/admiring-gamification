@@ -1,6 +1,8 @@
 defmodule AG.SlackAPITest do
   use ExUnit.Case, async: true
 
+  import ExUnit.CaptureLog
+
   alias AG.SlackAPI
   alias AG.SlackAPI.User
 
@@ -17,9 +19,13 @@ defmodule AG.SlackAPITest do
         ))
       end)
 
-      result = SlackAPI.list_active_users("http://localhost:#{bypass.port}")
+      log_msg =
+        capture_log(fn ->
+          result = SlackAPI.list_active_users("http://localhost:#{bypass.port}")
+          assert result == :error
+        end)
 
-      assert result == :error
+      assert log_msg =~ ~s({"ok" => false})
     end
 
     test "returns {:ok, users} when users can be listed successfully", %{bypass: bypass} do
