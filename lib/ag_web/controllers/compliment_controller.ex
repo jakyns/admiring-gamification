@@ -3,7 +3,8 @@ defmodule AGWeb.ComplimentController do
 
   alias AG.ComplimentCreator
 
-  plug AGWeb.SlackRequestVerificationPlug, verifier: Application.get_env(:ag, :slack_request_verifier)
+  plug Application.get_env(:ag, :slack_request_verification_plug),
+    verifier: Application.get_env(:ag, :slack_request_verifier)
 
   @compliment_creator Application.get_env(:ag, :compliment_creator)
 
