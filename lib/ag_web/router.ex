@@ -8,6 +8,7 @@ defmodule AGWeb.Router do
   scope "/api", AGWeb do
     pipe_through :api
 
+    post "/inquiries", ComplimentController, :show
     post "/compliments", ComplimentController, :create
   end
 

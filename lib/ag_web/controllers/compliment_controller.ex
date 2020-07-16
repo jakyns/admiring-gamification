@@ -7,6 +7,12 @@ defmodule AGWeb.ComplimentController do
 
   @compliment_creator Application.get_env(:ag, :compliment_creator)
 
+  def show(conn, %{"user_id" => recipient_id}) do
+    conn
+    |> put_status(:ok)
+    |> json(%{"text" => "show compliment points of #{recipient_id}"})
+  end
+
   def create(conn, %{"user_id" => sender_id, "command" => "/compliment", "text" => text}) do
     with {:ok, {recipient_name, type}} <- extract_recipient_name_and_type(text),
          :ok <- @compliment_creator.create(sender_id, recipient_name, type) do
