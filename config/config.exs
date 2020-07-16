@@ -39,6 +39,7 @@ config :ag, :user_storage, AG.UserStorage
 config :ag, :compliment_creator, AG.ComplimentCreator
 
 # Configures default slack request verifier
+config :ag, :slack_request_verification_plug, AGWeb.SlackRequestVerificationPlug
 config :ag, :slack_request_verifier, AGWeb.SlackRequestVerifier
 
 # Import environment specific config. This must remain at the bottom
