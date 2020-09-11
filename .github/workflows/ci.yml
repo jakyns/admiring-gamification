@@ -6,6 +6,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        partition: [1, 2, 3]
+
     services:
       db:
         image: postgres:12
@@ -45,4 +49,4 @@ jobs:
       run: mix deps.get
     - run: mix format --check-formatted
     - name: Run Tests
-      run: mix test --trace --cover --raise
+      run: MIX_TEST_PARTITION=${{ matrix.partition }} mix test --trace --partitions 3
