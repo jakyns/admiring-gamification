@@ -3,10 +3,12 @@ name: Elixir CI
 on: [pull_request, push]
 
 jobs:
-  test1:
-    name: Test partition 1
-
+  test:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        partitions: [1, 2, 3]
 
     services:
       db:
@@ -47,50 +49,4 @@ jobs:
       run: mix deps.get
     - run: mix format --check-formatted
     - name: Run Tests
-      run: MIX_TEST_PARTITION=1 mix test --partitions 2
-
-  test2:
-      name: Test partition 2
-
-      runs-on: ubuntu-latest
-
-      services:
-        db:
-          image: postgres:12
-          ports: ['5432:5432']
-          env:
-            POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: postgres
-            POSTGRES_DB: ag_test
-          options: >-
-            --health-cmd pg_isready
-            --health-interval 10s
-            --health-timeout 5s
-            --health-retries 5
-
-      steps:
-      - uses: actions/checkout@v2
-      - name: Recover deps cache
-        uses: actions/cache@v2
-        with:
-          path: deps
-          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-mix-
-      - name: Recover build cache
-        uses: actions/cache@v2
-        with:
-          path: _build
-          key: ${{ runner.os }}-build-${{ hashFiles('**/mix.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-build-
-      - name: Setup elixir
-        uses: actions/setup-elixir@v1
-        with:
-          otp-version: 23.x
-          elixir-version: 1.10.x
-      - name: Install Dependencies
-        run: mix deps.get
-      - run: mix format --check-formatted
-      - name: Run Tests
-        run: MIX_TEST_PARTITION=2 mix test --partitions 2
+      run: MIX_TEST_PARTITION=${{ matrix.build-dir }} mix test --trace --partitions 3
