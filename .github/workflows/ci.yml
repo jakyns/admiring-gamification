@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        partitions: [1, 2, 3]
+        partition: [1, 2, 3]
 
     services:
       db:
@@ -49,4 +49,4 @@ jobs:
       run: mix deps.get
     - run: mix format --check-formatted
     - name: Run Tests
-      run: MIX_TEST_PARTITION=${{ matrix.build-dir }} mix test --trace --partitions 3
+      run: MIX_TEST_PARTITION=${{ matrix.partition }} mix test --trace --partitions 3
