@@ -47,7 +47,7 @@ jobs:
       run: mix deps.get
     - run: mix format --check-formatted
     - name: Run Tests
-      run: MIX_TEST_PARTITION=1 mix test --trace --cover --partitions 2
+      run: MIX_TEST_PARTITION=1 mix test --partitions 2
 
   test2:
       name: Test partition 2
@@ -93,4 +93,4 @@ jobs:
         run: mix deps.get
       - run: mix format --check-formatted
       - name: Run Tests
-        run: MIX_TEST_PARTITION=2 mix test --trace --cover --partitions 2
+        run: MIX_TEST_PARTITION=2 mix test --partitions 2
